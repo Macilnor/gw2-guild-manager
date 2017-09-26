@@ -6,12 +6,14 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-gw2Guild *guild =new gw2Guild;
+QNetworkAccessManager* manager = new QNetworkAccessManager;
+gw2Guild* guild = new gw2Guild(manager);
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    gw2api api;
+    gw2api api(manager);
     setupUi(this);
     connect(authLineEdit, SIGNAL(returnPressed()), this, SLOT(on_authButton_clicked()));
     if(api.getAPIKey().isEmpty())

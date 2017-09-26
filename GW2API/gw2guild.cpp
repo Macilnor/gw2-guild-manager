@@ -1,6 +1,6 @@
 #include "gw2guild.h"
 
-gw2Guild::gw2Guild() : gw2api()
+gw2Guild::gw2Guild(QNetworkAccessManager* manager) : gw2api(manager)
 {
 requestAPI("https://api.guildwars2.com/v2/account?access_token="+api_key);
 }

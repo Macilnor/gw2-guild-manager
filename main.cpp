@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QFile>
+#include <QNetworkAccessManager>
 
 int main(int argc, char *argv[])
 {
@@ -8,12 +9,6 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
 
-   // QFile settings("settings.json");
-   // if(!settings.open(QIODevice::WriteOnly))
-  //  {
-   //     qWarning ("Couldn't open or create file.");
-   // }
-   // settings.close();
 
     return a.exec();
 }

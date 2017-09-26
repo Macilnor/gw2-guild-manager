@@ -6,7 +6,6 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QUrl>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QEventLoop>
@@ -18,7 +17,7 @@ protected:
     QString api_key;
     QNetworkAccessManager *networkManager;
 public:
-    gw2api();//конструктор
+    gw2api(QNetworkAccessManager *manager);//конструктор
     void setAPIKey(QString);
     QString getAPIKey();
     QJsonObject requestAPI(QString request);

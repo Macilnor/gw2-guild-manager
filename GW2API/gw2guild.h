@@ -13,7 +13,7 @@ private:
     QString guildName;
     QJsonObject guildLog;
 public:
-    gw2Guild();
+    gw2Guild(QNetworkAccessManager* manager);
     QString getGuildID();
     QString getGuildName();
     QJsonObject getGuildLog();

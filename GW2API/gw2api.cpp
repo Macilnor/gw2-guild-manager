@@ -1,8 +1,9 @@
 #include "gw2api.h"
 #include <QDebug>
 
-gw2api::gw2api()
+gw2api::gw2api(QNetworkAccessManager *manager)
 {
+    networkManager = manager;
     QFile settings("settings.json");
     if (!settings.open(QIODevice::ReadWrite))
     {
@@ -30,12 +31,11 @@ QString gw2api::getAPIKey()
 QJsonObject gw2api::requestAPI(QString request)
 {
     QJsonObject object;
-    networkManager = new QNetworkAccessManager();
+    networkManager = new QNetworkAccessManager;
     QNetworkReply *reply = networkManager->get(QNetworkRequest(QUrl(request)));
     qDebug() << reply->url();
     QJsonDocument document = QJsonDocument::fromJson(reply->readAll());
     object = document.object();
-    qDebug() << reply->errorString();
     reply->deleteLater();
     return object;
 }
