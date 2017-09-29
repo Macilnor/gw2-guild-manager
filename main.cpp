@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include <QApplication>
-#include <QFile>
-#include <QNetworkAccessManager>
+
+
 
 int main(int argc, char *argv[])
 {

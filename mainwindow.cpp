@@ -1,28 +1,30 @@
 #include "mainwindow.h"
-#include "gw2api/gw2api.h"
-#include "gw2api/gw2guild.h"
 #include <QRegExp>
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
-
-QNetworkAccessManager* manager = new QNetworkAccessManager;
-gw2Guild* guild = new gw2Guild(manager);
-
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
-    gw2api api(manager);
     setupUi(this);
+    manager = new QNetworkAccessManager;
+    api = new gw2api(manager);
+    tmr = new QTimer();
+    tmr->start(5000);
     connect(authLineEdit, SIGNAL(returnPressed()), this, SLOT(on_authButton_clicked()));
-    if(api.getAPIKey().isEmpty())
+    connect(api, SIGNAL(updatedLog()), this, SLOT(onUpdateLog()));
+    connect(api, SIGNAL(updatedUi()), this, SLOT(onUpdateUI()));
+    connect(tmr, SIGNAL(timeout()), this, SLOT(updateTime()));
+    if(api->getAPIKey().isEmpty())
     {
         stackedWidget->setCurrentWidget(authPage);
     }
     else
     {
         stackedWidget->setCurrentWidget(mainPage);
+        api->requestGuildID();
     }
 }
 
@@ -39,7 +41,7 @@ void MainWindow::on_authButton_clicked()
             QFile settings("settings.json");
             if (!settings.open(QIODevice::WriteOnly))
             {
-                qWarning ("Couldn't open or create file.");
+                qDebug() << "Couldn't open or create file.";
                 return;
             }
             QJsonObject jsonKey;
@@ -47,9 +49,69 @@ void MainWindow::on_authButton_clicked()
             QJsonDocument settingsJSON(jsonKey);
             settings.write(settingsJSON.toJson());
             settings.close();
+            api->setAPIKey(api_key);
+            api->requestGuildID();
             stackedWidget->setCurrentWidget(mainPage);
-            keyLabel->setText(guild->getGuildID());
         }
         else authMessage->setText("Wrong API Key!");
     }
+}
+
+void MainWindow::updateTime()
+{
+    tmr->setInterval(60000);
+    api->requestGuildName();
+    api->requestGuildLog();
+}
+
+void MainWindow::onUpdateUI()
+{
+    keyLabel->setText(api->getGuildName());
+}
+
+void MainWindow::onUpdateLog()
+{
+    QList<gw2Player> players;
+    QJsonArray log = api->getGuildLog();
+
+    qDebug() << log.count();
+
+    for (int i = 0; i<log.count(); i++)
+    {
+        int count;
+        QJsonObject obj = log[i].toObject();
+        if(obj["type"].toString() == "treasury")
+        {
+            bool found;
+            count++;
+            for (int j = 0; j<players.count(); j++)
+            {
+                if (players[j].getName()==obj["user"].toString())
+                {
+                    found = true;
+                    gw2Item it(obj["item_id"].toInt(),"",obj["count"].toInt(),0);
+                    players[j].addItem(it);
+                }
+            }
+            if (!found)
+            {
+                gw2Player user(obj["user"].toString());
+                players.append(user);
+                gw2Item it(obj["item_id"].toInt(),"",obj["count"].toInt(),0);
+                players.last().addItem(it);
+            }
+            qDebug() << count;
+        }
+    }
+
+//    foreach (gw2Player p, players)
+//    {
+//       qDebug() << p.getName();
+//       for (int i = 0; i<p.countItems(); i++)
+//       {
+//           qDebug() << p.getItem(i)->getId() << p.getItem(i)->getName() << p.getItem(i)->getCount() << p.getItem(i)->getPrice();
+//           qDebug() << "___________________";
+//       }
+//       qDebug() << "___________________";
+//    }
 }

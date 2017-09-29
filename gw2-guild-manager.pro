@@ -27,12 +27,18 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     GW2API/gw2api.cpp \
-    GW2API/gw2guild.cpp
+    treeitem.cpp \
+    treemodel.cpp \
+    GW2API/gw2item.cpp \
+    GW2API/gw2player.cpp
 
 HEADERS += \
         mainwindow.h \
     GW2API/gw2api.h \
-    GW2API/gw2guild.h
+    treeitem.h \
+    treemodel.h \
+    GW2API/gw2item.h \
+    GW2API/gw2player.h
 
 FORMS += \
         mainwindow.ui

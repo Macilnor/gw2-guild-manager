@@ -50,7 +50,7 @@ border-radius: 5px;
        <item>
         <widget class="QStackedWidget" name="stackedWidget">
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="authPage">
           <layout class="QGridLayout" name="gridLayout">
@@ -163,16 +163,6 @@ border-radius: 5px;
           </layout>
          </widget>
          <widget class="QWidget" name="mainPage">
-          <widget class="QTableWidget" name="tableWidget">
-           <property name="geometry">
-            <rect>
-             <x>10</x>
-             <y>30</y>
-             <width>256</width>
-             <height>192</height>
-            </rect>
-           </property>
-          </widget>
           <widget class="QLabel" name="keyLabel">
            <property name="geometry">
             <rect>
@@ -184,6 +174,16 @@ border-radius: 5px;
            </property>
            <property name="text">
             <string>TextLabel</string>
+           </property>
+          </widget>
+          <widget class="QTreeView" name="treeView">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>30</y>
+             <width>581</width>
+             <height>401</height>
+            </rect>
            </property>
           </widget>
          </widget>
