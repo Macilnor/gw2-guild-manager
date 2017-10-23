@@ -82,11 +82,9 @@ void MainWindow::onUpdateLog()
         QJsonObject obj = log[i].toObject();
         if(obj["type"].toString() == "treasury")
         {
-<<<<<<< HEAD
+
             bool found = false;
-=======
-            bool found;
->>>>>>> 63edb5c03f96451cf0bd3e62ca3bab4fec46d1d4
+
             count++;
             for (int j = 0; j<players.count(); j++)
             {
@@ -108,7 +106,7 @@ void MainWindow::onUpdateLog()
         }
     }
 
-<<<<<<< HEAD
+
     foreach (gw2Player p, players)
     {
        qDebug() << p.getName();
@@ -119,16 +117,5 @@ void MainWindow::onUpdateLog()
        }
        qDebug() << "___________________";
     }
-=======
-//    foreach (gw2Player p, players)
-//    {
-//       qDebug() << p.getName();
-//       for (int i = 0; i<p.countItems(); i++)
-//       {
-//           qDebug() << p.getItem(i)->getId() << p.getItem(i)->getName() << p.getItem(i)->getCount() << p.getItem(i)->getPrice();
-//           qDebug() << "___________________";
-//       }
-//       qDebug() << "___________________";
-//    }
->>>>>>> 63edb5c03f96451cf0bd3e62ca3bab4fec46d1d4
+
 }

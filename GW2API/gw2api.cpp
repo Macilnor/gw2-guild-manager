@@ -153,11 +153,9 @@ void gw2api::requestGuildLog()
 
         QNetworkRequest* request = new QNetworkRequest;
         request->setUrl(requestURL);
-<<<<<<< HEAD
+
         qDebug() << request->url();
-=======
-        //qDebug() << request->url();
->>>>>>> 63edb5c03f96451cf0bd3e62ca3bab4fec46d1d4
+
 
         QNetworkReply *reply = networkManager->get(*request);
 
